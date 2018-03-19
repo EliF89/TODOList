@@ -192,7 +192,7 @@ func ShowTask(w http.ResponseWriter, r *http.Request, param httprouter.Params)  
 	key := param.ByName("list")
 	title := param.ByName("title")
 	if  key == "" || title == "" {
-		logutils.Error.Println("ShowTask:: Bad request received, list = '%s', task='%s'", key, title)
+		logutils.Error.Println(fmt.Sprintf("ShowTask:: Bad request received, list = '%s', task='%s'", key, title))
 		http.Error(w, "Missing ToDo list name or task title", http.StatusBadRequest)
 		return
 	}
