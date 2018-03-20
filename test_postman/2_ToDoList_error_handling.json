@@ -11,7 +11,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "b67e4f22-5d91-4ab2-95f3-0ca35f653508",
+						"id": "4ce09510-4094-40cb-969f-0eb41e64bb20",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -45,7 +45,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "b67e4f22-5d91-4ab2-95f3-0ca35f653508",
+						"id": "44402a3e-86c0-4484-8c3c-b6ed0364bef8",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -79,7 +79,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "b67e4f22-5d91-4ab2-95f3-0ca35f653508",
+						"id": "b42b23a8-351c-48be-87f4-55eb26811be4",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -354,47 +354,6 @@
 			"response": []
 		},
 		{
-			"name": "DeleteList list not found - Error",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "4aad188b-9c54-46a3-9922-c06942dffe8a",
-						"type": "text/javascript",
-						"exec": [
-							"pm.test(\"Body matches string\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"ToDo list not found, list not deleted\");",
-							"});",
-							"",
-							"",
-							"pm.test(\"Status code is 404\", function () {",
-							"    pm.response.to.have.status(404);",
-							"});"
-						]
-					}
-				}
-			],
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"Name\": \"List 2\"\n}"
-				},
-				"url": {
-					"raw": "localhost:8080/delete",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"delete"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Show List2 - Not found",
 			"event": [
 				{
@@ -475,6 +434,91 @@
 						"show",
 						"",
 						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateList1 - added, tot = 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "26782246-5a10-4601-b15f-f708ab08f6cb",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Name).to.eql(\"List 1\");",
+							"    pm.expect(jsonData.TaskNumber).to.eql(0);",
+							"});",
+							"",
+							"",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Name\": \"List 1\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/create",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateList1 already present - Error",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d96c0584-1d6f-4bb3-bce3-7defb1540413",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Error while creating ToDo list\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Name\": \"List 1\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/create",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"create"
 					]
 				}
 			},

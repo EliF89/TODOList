@@ -1,4 +1,4 @@
-package handler
+package controller
 
 import (
 	"encoding/json"
@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	"github.com/efreddo/todolist/logutils"
-	"github.com/efreddo/todolist/structutils"
+	"github.com/efreddo/todolist/model"
 	"github.com/julienschmidt/httprouter"
 )
 
@@ -40,37 +40,59 @@ func AddTask(w http.ResponseWriter, r *http.Request, param httprouter.Params)  {
 		return
 	}
 
-	list, err := structutils.GetToDoList(key)
-	if err != nil {
-		logutils.Error.Println(fmt.Sprintf(
-			"AddTask:: Error while retrieving ToDo list %s. error={%v}", key, err))
-		http.Error(w, err.Error(), http.StatusNotFound)
-		return
-	}
-
-	// Check if task already exist in the list
-	_, found := list.GetTask(req.Title)
-	if found {		
-		logutils.Warning.Println(fmt.Sprintf(
-			"AddTask:: task {%s} already present in ToDo list {%s}. Task not added.",
-			req.Title, key))
-		http.Error(w, "Task already present in List. Use updatetask to modfy", http.StatusNotAcceptable)
-		return	
-	}
-
-	task, err := list.AddTask(req.Title)
+	task, err :=  model.AddTask(key, req.Title)
 	if err != nil {
 		logutils.Error.Println(fmt.Sprintf(
 			"AddTask:: Error while creating task = {%s} in ToDo list = {%s}. error={%v}",
 			req.Title, key, err))
+		http.Error(w, fmt.Sprintf("Error while creating task '%s' in ToDo list '%s'", req.Title, key), 
+				http.StatusNotFound)
+		return
 	}
-	json.Marshal(list.GetAll()) 
+
 	logutils.Info.Println(fmt.Sprintf(
 		"AddTask:: new task added to ToDoList '%s': task={title: %s, done=%t}",key, task.Title, task.Done ))
-	json.NewEncoder(w).Encode(list.GetAll())
+	json.NewEncoder(w).Encode(task)
 }
 
 
+/* 
+	request type: GET
+	url: /showtask/:list/
+
+	Examples:
+
+	   req: GET /showtask/oklist//
+	   res: 400 empty title
+	   
+	   req: POST /showtask/badlist/oktitle
+	   res: 404 ToDo list not found
+
+	   req:  GET /showtask/oklist/oktitle
+	   res: 200
+*/	   
+func GetTask(w http.ResponseWriter, r *http.Request, param httprouter.Params)  {
+	key := param.ByName("list")
+	title := param.ByName("title")
+	if  key == "" || title == "" {
+		logutils.Error.Println(fmt.Sprintf("ShowTask:: Bad request received, list = '%s', task='%s'", key, title))
+		http.Error(w, "Missing ToDo list name or task title", http.StatusBadRequest)
+		return
+	}
+	
+	task, err :=  model.GetTask(key, title)
+	if err != nil {
+		logutils.Error.Println(fmt.Sprintf(
+			"ShowTask:: Task = {%s} not found in ToDo list = {%s}",
+			title, key))
+		http.Error(w, fmt.Sprintf("Error while retrieving task '%s' from ToDo list '%s'", title, key), http.StatusNotFound)
+		return	
+	}
+	
+	logutils.Info.Println(fmt.Sprintf(
+		"ShowTask:: task retrieved from ToDoList '%s': task={title: %s, done=%t}",key, task.Title, task.Done ))
+	json.NewEncoder(w).Encode(task)
+}
 
 /* 
 	request type: PUT
@@ -101,26 +123,19 @@ func UpdateTask(w http.ResponseWriter, r *http.Request, param httprouter.Params)
 		http.Error(w, "Missing ToDo list name or task title", http.StatusBadRequest)
 		return
 	}
-	list, err := structutils.GetToDoList(key)
-	if err != nil {
-		logutils.Error.Println(fmt.Sprintf(
-			"UpdateTask:: Error while retrieving ToDo list %s. error={%v}", key, err))
-		http.Error(w, err.Error(), http.StatusNotFound)
-		return	
-	}
-
-	task, err := list.UpdateTask(req.Title, req.Done)
+	
+	task, err :=  model.UpdateTask(key, req.Title, req.Done)
 	if err != nil {
 		logutils.Error.Println(fmt.Sprintf(
 			"UpdateTask:: Error while updating task = {%s} in ToDo list = {%s}. error={%v}",
 			req.Title, key, err))
-		http.Error(w, "Task unknown. Use addtask request to add the task", http.StatusNotAcceptable)
-		return			
+		http.Error(w, fmt.Sprintf("Error while updating task '%s' in ToDo list '%s'", req.Title, key), http.StatusNotFound)
+		return	
 	}
 
 	logutils.Info.Println(fmt.Sprintf(
 		"UpdateTask:: task updated in  ToDoList '%s': task={title: %s, done=%t}",key, task.Title, task.Done ))
-	json.NewEncoder(w).Encode(list.GetAll())
+	json.NewEncoder(w).Encode(task)
 }
 
 
@@ -150,70 +165,17 @@ func RemoveTask(w http.ResponseWriter, r *http.Request, param httprouter.Params)
 		http.Error(w, "Missing ToDo list name or task title", http.StatusBadRequest)
 		return
 	}
-	list, err := structutils.GetToDoList(key)
-	if err != nil {
-		logutils.Error.Println(fmt.Sprintf(
-			"RemoveTask:: Error while retrieving ToDo list %s. error={%v}", key, err))
-			http.Error(w, err.Error(), http.StatusNotFound)
-			return
-	}
-
-	task, err := list.RemoveTask(req.Title)
+	task, err :=  model.RemoveTask(key, req.Title)
 	if err != nil {
 		logutils.Error.Println(fmt.Sprintf(
 			"RemoveTask:: Error while removing task = {%s} in ToDo list = {%s}. error={%v}",
 			req.Title, key, err))
-			http.Error(w, err.Error(), http.StatusNotFound)
+			http.Error(w, fmt.Sprintf("Error while deleting task '%s' in ToDo list '%s'", req.Title, key),  
+				http.StatusNotFound)
 			return
 	}
 
 	logutils.Info.Println(fmt.Sprintf(
 		"RemoveTask:: task removed from  ToDoList '%s': task={title: %s, done=%t}",key, task.Title, task.Done ))
-	json.NewEncoder(w).Encode(list.GetAll())
-}
-
-
-/* 
-	request type: GET
-	url: /showtask/:list/
-
-	Examples:
-
-	   req: GET /showtask/oklist//
-	   res: 400 empty title
-	   
-	   req: POST /showtask/badlist/oktitle
-	   res: 404 ToDo list not found
-
-	   req:  GET /showtask/oklist/oktitle
-	   res: 200
-*/	   
-func ShowTask(w http.ResponseWriter, r *http.Request, param httprouter.Params)  {
-	key := param.ByName("list")
-	title := param.ByName("title")
-	if  key == "" || title == "" {
-		logutils.Error.Println(fmt.Sprintf("ShowTask:: Bad request received, list = '%s', task='%s'", key, title))
-		http.Error(w, "Missing ToDo list name or task title", http.StatusBadRequest)
-		return
-	}
-	list, err := structutils.GetToDoList(key)
-	if err != nil {
-		logutils.Error.Println(fmt.Sprintf(
-			"ShowTask:: Error while retrieving ToDo list %s. error={%v}", key, err))
-		http.Error(w, err.Error(), http.StatusNotFound)
-		return	
-	}
-
-	task, found := list.GetTask(title)
-	if !found {
-		logutils.Error.Println(fmt.Sprintf(
-			"ShowTask:: Task = {%s} not found in ToDo list = {%s}",
-			title, key))
-		http.Error(w,"Task not found", http.StatusNotFound)
-		return	
-	}
-	
-	logutils.Info.Println(fmt.Sprintf(
-		"ShowTask:: task retrieved from ToDoList '%s': task={title: %s, done=%t}",key, task.Title, task.Done ))
 	json.NewEncoder(w).Encode(task)
 }

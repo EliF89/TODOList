@@ -113,12 +113,13 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "d2ffea71-c8f0-4e6e-94aa-a4bb209f1627",
+						"id": "0d898ffd-0dd7-4393-8a83-48f134453789",
 						"type": "text/javascript",
 						"exec": [
 							"pm.test(\"Body matches string\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"#ToDoList = 1\");",
-							"    pm.expect(pm.response.text()).to.include(\"'List 1'\");",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Name).to.eql(\"List 1\");",
+							"    pm.expect(jsonData.TaskNumber).to.eql(0);",
 							"});",
 							"",
 							"",
@@ -155,14 +156,15 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "16c16291-ca20-4566-bde0-84dcc5f9b2b3",
+						"id": "9e06e702-5cf4-468b-aa22-3d3bd1d66a9c",
 						"type": "text/javascript",
 						"exec": [
 							"pm.test(\"Body matches string\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"#ToDoList = 2\");",
-							"    pm.expect(pm.response.text()).to.include(\"'List 1'\");",
-							"    pm.expect(pm.response.text()).to.include(\"'List 3'\");",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Name).to.eql(\"List 3\");",
+							"    pm.expect(jsonData.TaskNumber).to.eql(0);",
 							"});",
+							"",
 							"",
 							"",
 							"pm.test(\"Status code is 200\", function () {",
@@ -198,13 +200,14 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "b842fdd1-1881-4c4b-b682-760964f79b0c",
+						"id": "0d0ceafb-68f4-4c6e-886a-4207f1b4634f",
 						"type": "text/javascript",
 						"exec": [
 							"pm.test(\"Body matches string\", function () {",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData[0].Title).to.eql(\"Task 1\");",
-							"    pm.expect(jsonData[0].Done).to.eql(false);",
+							"    pm.expect(jsonData.ToDoList).to.eql(\"List 1\");",
+							"    pm.expect(jsonData.Title).to.eql(\"Task 1\");",
+							"    pm.expect(jsonData.Done).to.eql(false);",
 							"});",
 							"",
 							"",
@@ -242,12 +245,14 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "bb2ccc1a-b8ff-4124-af87-5d671f7b6ec0",
+						"id": "db20e89d-76ee-4fe5-b95f-1af8f4a9ea4e",
 						"type": "text/javascript",
 						"exec": [
 							"pm.test(\"Body matches string\", function () {",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.length).to.eql(2);",
+							"    pm.expect(jsonData.ToDoList).to.eql(\"List 1\");",
+							"    pm.expect(jsonData.Title).to.eql(\"Task 2\");",
+							"    pm.expect(jsonData.Done).to.eql(false);",
 							"});",
 							"",
 							"",
@@ -285,15 +290,15 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "fd9b4219-fa85-47f6-8d47-5502c51bfe37",
+						"id": "a64296ec-3c08-48b2-bb3a-df5ac064b297",
 						"type": "text/javascript",
 						"exec": [
 							"pm.test(\"Body matches string\", function () {",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData[0].Title).to.eql(\"Task 1\");",
-							"    pm.expect(jsonData[0].Done).to.eql(false);",
+							"    pm.expect(jsonData.ToDoList).to.eql(\"List 3\");",
+							"    pm.expect(jsonData.Title).to.eql(\"Task 1\");",
+							"    pm.expect(jsonData.Done).to.eql(false);",
 							"});",
-							"",
 							"",
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
@@ -329,12 +334,14 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "2abc391e-1fdd-46ce-b2fc-34ce590bb4b9",
+						"id": "a5a281d8-ccd1-46ff-892e-cb437b548778",
 						"type": "text/javascript",
 						"exec": [
 							"pm.test(\"Body matches string\", function () {",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.length).to.eql(2);",
+							"    pm.expect(jsonData.ToDoList).to.eql(\"List 3\");",
+							"    pm.expect(jsonData.Title).to.eql(\"Task 2\");",
+							"    pm.expect(jsonData.Done).to.eql(false);",
 							"});",
 							"",
 							"",
@@ -372,14 +379,14 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "b572e7c7-2ef2-4f1f-93ac-0330f1669e1c",
+						"id": "be5b4088-e6f5-44ff-b70a-65147de56864",
 						"type": "text/javascript",
 						"exec": [
 							"pm.test(\"Body matches string\", function () {",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.length).to.eql(1);",
-							"    pm.expect(jsonData[0].Title).to.eql(\"Task 1\");",
-							"    pm.expect(jsonData[0].Done).to.eql(false);",
+							"    pm.expect(jsonData.ToDoList).to.eql(\"List 3\");",
+							"    pm.expect(jsonData.Title).to.eql(\"Task 2\");",
+							"    pm.expect(jsonData.Done).to.eql(false);",
 							"});",
 							"",
 							"",
@@ -417,13 +424,14 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "5fea2be1-5610-4fad-be80-294a5bbd739f",
+						"id": "ec669eb5-8be8-47ad-ba8f-8361eb2aecab",
 						"type": "text/javascript",
 						"exec": [
 							"pm.test(\"Body matches string\", function () {",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData[0].Title).to.eql(\"Task 1\");",
-							"    pm.expect(jsonData[0].Done).to.eql(true);",
+							"    pm.expect(jsonData.ToDoList).to.eql(\"List 3\");",
+							"    pm.expect(jsonData.Title).to.eql(\"Task 1\");",
+							"    pm.expect(jsonData.Done).to.eql(true);",
 							"});",
 							"",
 							"",
@@ -456,19 +464,21 @@
 			"response": []
 		},
 		{
-			"name": "Update Task 1 null Done in List3 - ok",
+			"name": "Update Task 1 not Done in List3 - ok",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "6d67b393-6097-4f4c-ba5a-5f905ead2832",
+						"id": "35447964-6f8c-4ef9-981f-e3557eb198c8",
 						"type": "text/javascript",
 						"exec": [
 							"pm.test(\"Body matches string\", function () {",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData[0].Title).to.eql(\"Task 1\");",
-							"    pm.expect(jsonData[0].Done).to.eql(false);",
+							"    pm.expect(jsonData.ToDoList).to.eql(\"List 3\");",
+							"    pm.expect(jsonData.Title).to.eql(\"Task 1\");",
+							"    pm.expect(jsonData.Done).to.eql(false);",
 							"});",
+							"",
 							"",
 							"",
 							"pm.test(\"Status code is 200\", function () {",
@@ -505,14 +515,16 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "5fea2be1-5610-4fad-be80-294a5bbd739f",
+						"id": "2ad9e4d0-3fc3-4d38-9725-1ebc8c1ce18a",
 						"type": "text/javascript",
 						"exec": [
 							"pm.test(\"Body matches string\", function () {",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData[0].Title).to.eql(\"Task 1\");",
-							"    pm.expect(jsonData[0].Done).to.eql(true);",
+							"    pm.expect(jsonData.ToDoList).to.eql(\"List 3\");",
+							"    pm.expect(jsonData.Title).to.eql(\"Task 1\");",
+							"    pm.expect(jsonData.Done).to.eql(true);",
 							"});",
+							"",
 							"",
 							"",
 							"pm.test(\"Status code is 200\", function () {",

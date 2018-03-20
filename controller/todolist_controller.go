@@ -1,12 +1,12 @@
-package handler
+package controller
 
 import (
 	"encoding/json"
 	"fmt"
 	"net/http"
 
+	"github.com/efreddo/todolist/model"
 	"github.com/efreddo/todolist/logutils"
-	"github.com/efreddo/todolist/structutils"
 	"github.com/julienschmidt/httprouter"
 )
 
@@ -32,18 +32,18 @@ func CreateToDoList(w http.ResponseWriter, r *http.Request, param httprouter.Par
 		return
 	}
 
-	_, err := structutils.CreateToDoList(req.Name)
+	toDoList, err :=  model.CreateToDoList(req.Name)
 	if err != nil {				
 		logutils.Error.Println(fmt.Sprintf(
 			"CreateToDoList:: Error while creating ToDo list '%s'. error={%v}",
 			req.Name, err))
-			http.Error(w, err.Error(), http.StatusBadRequest)
+			http.Error(w, fmt.Sprintf("Error while creating ToDo list '%s'", req.Name), http.StatusBadRequest)
 			return
 	}
-	toDoListInfo := structutils.GetToDoListsInfo()
+
 	logutils.Info.Println(fmt.Sprintf(
-		"CreateToDoList:: new ToDo '%s' list created. Set of ToDoList: {%s}", req.Name, toDoListInfo ))
-	fmt.Fprintf(w, toDoListInfo)
+		"CreateToDoList:: new ToDo '%s' list created", toDoList.Name ))
+	json.NewEncoder(w).Encode(toDoList)
 }	
 
 /* 
@@ -70,19 +70,18 @@ func DeleteToDoList(w http.ResponseWriter, r *http.Request, param httprouter.Par
 		return
 	}
 
-	err := structutils.DeleteToDoList(req.Name)
+	list, err :=  model.DeleteToDoList(req.Name)
 	if err != nil {
 		logutils.Error.Println(fmt.Sprintf(
 			"DeleteToDoList:: Error while deleting ToDo list '%s'. error={%v}",
 			req.Name, err))
-			http.Error(w, err.Error(), http.StatusNotFound)
+			http.Error(w, fmt.Sprintf("Error while deleting ToDo list %s",req.Name) , http.StatusNotFound)
 			return
 	}
-	
-	toDoListInfo := structutils.GetToDoListsInfo()
+
 	logutils.Info.Println(fmt.Sprintf(
-		"DeleteToDoList:: ToDo list '%s' deleted. Set of ToDoList: {%s}",req.Name, toDoListInfo ))
-	fmt.Fprintf(w, toDoListInfo)
+		"DeleteToDoList:: ToDo list '%s' deleted", list.Name ))
+	json.NewEncoder(w).Encode(list)	
 }	
 
 
@@ -96,8 +95,14 @@ func DeleteToDoList(w http.ResponseWriter, r *http.Request, param httprouter.Par
 	   res: 200
 	   
 */
-func ShowAllToDoList(w http.ResponseWriter, r *http.Request, param httprouter.Params) {
-	todoList := structutils.GetAllToDoList()
+func GetAllToDoList(w http.ResponseWriter, r *http.Request, param httprouter.Params) {
+	todoList, err :=  model.GetAllToDoList()
+	if err != nil {
+		logutils.Error.Println(fmt.Sprintf(
+			"ShowAllToDoList:: Error while retrieving ToDo list from DB. error={%v}",  err))
+		http.Error(w, "Error while retrieving ToDo list", http.StatusUnprocessableEntity)
+		return
+	}	
 	logutils.Info.Println(fmt.Sprintf(
 		"ShowAllToDoList:: retrieved %d todo list", len(todoList) ))
 	json.NewEncoder(w).Encode(todoList)
@@ -118,7 +123,7 @@ func ShowAllToDoList(w http.ResponseWriter, r *http.Request, param httprouter.Pa
 	   req: GET /show/okname/ 
 	   res: 200
 */
-func ShowToDoList(w http.ResponseWriter, r *http.Request, param httprouter.Params) {
+func GetToDoList(w http.ResponseWriter, r *http.Request, param httprouter.Params) {
 	key := param.ByName("list")
 
 	if key == "" {
@@ -127,15 +132,15 @@ func ShowToDoList(w http.ResponseWriter, r *http.Request, param httprouter.Param
 		return
 	}
 
-	list, err := structutils.GetToDoList(key)
+	list, err :=  model.GetToDoList(key)
 	if err != nil {
 		logutils.Error.Println(fmt.Sprintf(
 			"ShowToDoList:: Error while retrieving ToDo list '%s'. error={%v}",
 			key, err))
-		http.Error(w, err.Error(), http.StatusNotFound)
+		http.Error(w, fmt.Sprintf("ToDo list not found"), http.StatusNotFound)
 		return
 	}
 	logutils.Info.Println(fmt.Sprintf(
-		"ShowToDoList:: Retrieved ToDoList '%s': tasks={%v}",key, list.GetAll() ))
+		"ShowToDoList:: Retrieved ToDoList '%s'. Number of task={%d}",key, list.TaskNumber ))
 	json.NewEncoder(w).Encode(list)
 }	
