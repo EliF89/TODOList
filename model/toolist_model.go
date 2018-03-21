@@ -88,3 +88,21 @@ func DeleteToDoList(name string) (*ToDoList, error) {
 		return list, nil
 	}
 }
+
+func UpdateToDoList(name string, newName string) (*ToDoList, error) {
+	db := getConnection()
+	defer db.Close()
+
+	list := new(ToDoList)	
+	query :=  ` UPDATE todolist 
+				SET name = $1
+				WHERE name = $2
+				RETURNING name`
+	err := db.QueryRow(query, newName, name).Scan(&list.Name)
+		
+	if err != nil {
+		return &ToDoList{}, err
+	} else {
+		return list, nil
+	}
+}

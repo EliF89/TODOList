@@ -43,17 +43,17 @@ func GetTask(todoListName string, taskTitle string) (*Task, error) {
 }
 
 
-func UpdateTask(todoListName string, taskTitle string, done bool) (*Task, error) {
+func UpdateTask(todoListName string, taskTitle string, newTitle string, done bool) (*Task, error) {
 	db := getConnection()
 	defer db.Close()
 
 	task := new(Task)
 	query :=  ` UPDATE task 
-				SET done = $1
-				WHERE  todolist_name = $2 AND title = $3
+				SET done = $1, title = $2
+				WHERE  todolist_name = $3 AND title = $4
 				RETURNING todolist_name, title, done` 
 
-	err := db.QueryRow(query, done, todoListName, taskTitle).Scan(&task.ToDoList, &task.Title, &task.Done)
+	err := db.QueryRow(query, done, newTitle, todoListName, taskTitle).Scan(&task.ToDoList, &task.Title, &task.Done)
 		
 	if err != nil {
 		return &Task{}, err

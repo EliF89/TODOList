@@ -20,16 +20,17 @@ func RegisterHandlers() {
 	r := httprouter.New()
 
 	// ToDo Lists 
-	r.POST("/create/", controller.CreateToDoList)	
-	r.DELETE("/delete/", controller.DeleteToDoList)
-	r.GET("/showall/", controller.GetAllToDoList)
-	r.GET("/show/:list/", controller.GetToDoList)
+	r.POST("/lists/", controller.CreateToDoList)	
+	r.DELETE("/lists/:list", controller.DeleteToDoList)
+	r.PUT("/lists/:list",  controller.UpdateToDoList)	
+	r.GET("/lists/", controller.GetAllToDoList)
+	r.GET("/lists/:list/", controller.GetToDoList)
 
 	// Tasks
-	r.POST("/addtask/:list/",  controller.AddTask)	
-	r.DELETE("/deletetask/:list/",  controller.RemoveTask)	
-	r.PUT("/updatetask/:list/",  controller.UpdateTask)	
-	r.GET("/showtask/:list/:title",  controller.GetTask)
+	r.POST("/lists/:list/tasks",  controller.CreateTask)	
+	r.DELETE("/lists/:list/tasks/:task",  controller.DeleteTask)	
+	r.PUT("/lists/:list/tasks/:task",  controller.UpdateTask)	
+	r.GET("/lists/:list/tasks/:task",  controller.GetTask)
 
 	http.ListenAndServe(":8080" , r)	
 	
