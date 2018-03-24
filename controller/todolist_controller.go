@@ -2,6 +2,7 @@ package controller
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 
@@ -10,6 +11,11 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
+
+const (
+	TODOLIST_BADREQUEST = 10;
+	TODOLIST_OPERATION_ERROR = 11;
+)
 
 /* 
 	request type: POST
@@ -27,19 +33,14 @@ import (
 func CreateToDoList(w http.ResponseWriter, r *http.Request, param httprouter.Params) {
 	req := struct{ Name string }{}
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil || req.Name == "" {
-		logutils.Error.Println("CreateToDoList:: Bad request received", err)
-		
-		http.Error(w, "Missing ToDo list name", http.StatusBadRequest)
-		return
+		todolistBadRequestError(w, "CreateToDoList", err)		
+		return		
 	}
 
 	toDoList, err :=  model.CreateToDoList(req.Name)
 	if err != nil {				
-		logutils.Error.Println(fmt.Sprintf(
-			"CreateToDoList:: Error while creating ToDo list '%s'. error={%v}",
-			req.Name, err))
-			http.Error(w, fmt.Sprintf("Error while creating ToDo list '%s'", req.Name), http.StatusBadRequest)
-			return
+		todolistOperationError(w, "CreateToDoList", req.Name, err)
+		return
 	}
 
 	logutils.Info.Println(fmt.Sprintf(
@@ -65,18 +66,14 @@ func CreateToDoList(w http.ResponseWriter, r *http.Request, param httprouter.Par
 func DeleteToDoList(w http.ResponseWriter, r *http.Request, param httprouter.Params) {
 	key := param.ByName("list")
 	if key == "" {
-		logutils.Error.Println("DeleteToDoList:: Bad request received, null list name")
-		http.Error(w, "Missing ToDo list name", http.StatusBadRequest)
+		todolistBadRequestError(w, "DeleteToDoList", errors.New("Missing mandatory information: todolist name."))	
 		return
 	}
 
 	list, err :=  model.DeleteToDoList(key)
 	if err != nil {
-		logutils.Error.Println(fmt.Sprintf(
-			"DeleteToDoList:: Error while deleting ToDo list '%s'. error={%v}",
-			key, err))
-			http.Error(w, fmt.Sprintf("Error while deleting ToDo list %s",key) , http.StatusNotFound)
-			return
+		todolistOperationError(w, "DeleteToDoList", key, err)
+		return
 	}
 
 	logutils.Info.Println(fmt.Sprintf(
@@ -109,21 +106,17 @@ func UpdateToDoList(w http.ResponseWriter, r *http.Request, param httprouter.Par
 	key := param.ByName("list")
 	req := struct{ Name string }{}
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil || req.Name == "" || key == "" {
-		logutils.Error.Println("ShowToDoList:: Bad request received. No list name provided")
-		http.Error(w, "Missing ToDo list name or new list name", http.StatusBadRequest)
+		todolistBadRequestError(w, "UpdateToDoList", err)	
 		return
 	}
 
 	list, err :=  model.UpdateToDoList(key, req.Name)
 	if err != nil {
-		logutils.Error.Println(fmt.Sprintf(
-			"ShowToDoList:: Error while retrieving ToDo list '%s'. error={%v}",
-			key, err))
-		http.Error(w, fmt.Sprintf("ToDo list not found"), http.StatusNotFound)
+		todolistOperationError(w, "UpdateToDoList", key, err)
 		return
 	}
 	logutils.Info.Println(fmt.Sprintf(
-		"ShowToDoList:: Retrieved ToDoList '%s'. Number of task={%d}",key, list.TaskNumber ))
+		"UpdateToDoList:: Retrieved ToDoList '%s'. Number of task={%d}",key, list.TaskNumber ))
 	json.NewEncoder(w).Encode(list)
 }	
 
@@ -143,13 +136,11 @@ func UpdateToDoList(w http.ResponseWriter, r *http.Request, param httprouter.Par
 func GetAllToDoList(w http.ResponseWriter, r *http.Request, param httprouter.Params) {
 	todoList, err :=  model.GetAllToDoList()
 	if err != nil {
-		logutils.Error.Println(fmt.Sprintf(
-			"ShowAllToDoList:: Error while retrieving ToDo list from DB. error={%v}",  err))
-		http.Error(w, "Error while retrieving ToDo list", http.StatusUnprocessableEntity)
+		todolistOperationError(w, "GetAllToDoList", "all", err)
 		return
 	}	
 	logutils.Info.Println(fmt.Sprintf(
-		"ShowAllToDoList:: retrieved %d todo list", len(todoList) ))
+		"GetAllToDoList:: retrieved %d todo list", len(todoList) ))
 	json.NewEncoder(w).Encode(todoList)
 }	
 
@@ -172,20 +163,29 @@ func GetToDoList(w http.ResponseWriter, r *http.Request, param httprouter.Params
 	key := param.ByName("list")
 
 	if key == "" {
-		logutils.Error.Println("ShowToDoList:: Bad request received. No list name provided")
-		http.Error(w, "Missing ToDo list name", http.StatusBadRequest)
+		todolistBadRequestError(w, "GetToDoList", errors.New("Missing mandatory information: todolist name."))	
 		return
 	}
 
 	list, err :=  model.GetToDoList(key)
 	if err != nil {
-		logutils.Error.Println(fmt.Sprintf(
-			"ShowToDoList:: Error while retrieving ToDo list '%s'. error={%v}",
-			key, err))
-		http.Error(w, fmt.Sprintf("ToDo list not found"), http.StatusNotFound)
+		todolistOperationError(w, "GetToDoList", key, err)
 		return
 	}
+
 	logutils.Info.Println(fmt.Sprintf(
-		"ShowToDoList:: Retrieved ToDoList '%s'. Number of task={%d}",key, list.TaskNumber ))
+		"GetToDoList:: Retrieved ToDoList '%s'. Number of task={%d}",key, list.TaskNumber ))
 	json.NewEncoder(w).Encode(list)
 }	
+
+func todolistBadRequestError(w http.ResponseWriter, caller string, err error){
+	HandleError(w, http.StatusBadRequest, TODOLIST_BADREQUEST, caller,
+		"Missing ToDo list name",  
+		fmt.Sprintf("Bad request received: Missing mandatory parameters list name. %v", err))
+}
+
+func todolistOperationError(w http.ResponseWriter, caller, todolist string, err error){
+	HandleError(w, http.StatusNotFound, TODOLIST_OPERATION_ERROR, caller,
+		fmt.Sprintf("Error while performing operation on ToDo list = {%s}", todolist),  
+		fmt.Sprintf("%v",err))
+}

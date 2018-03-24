@@ -2,6 +2,7 @@ package controller
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 
@@ -10,7 +11,10 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-
+const (
+	TASK_BADREQUEST = 20;
+	TASK_OPERATION_ERROR = 21;
+)
 
 /* 
 	request type: POST
@@ -35,23 +39,18 @@ func CreateTask(w http.ResponseWriter, r *http.Request, param httprouter.Params)
 	key := param.ByName("list")
 	req := struct{ Title string }{}
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil  || key == "" || req.Title == "" {
-		logutils.Error.Println("AddTask:: Bad request received", err)
-		http.Error(w, "Missing ToDo list name or task title", http.StatusBadRequest)
-		return
+		taskBadRequestError(w, "CreateTask", err)		
+		return		
 	}
-
+	
 	task, err :=  model.AddTask(key, req.Title)
 	if err != nil {
-		logutils.Error.Println(fmt.Sprintf(
-			"AddTask:: Error while creating task = {%s} in ToDo list = {%s}. error={%v}",
-			req.Title, key, err))
-		http.Error(w, fmt.Sprintf("Error while creating task '%s' in ToDo list '%s'", req.Title, key), 
-				http.StatusNotFound)
+		taskOperationError(w, "CreateTask", req.Title, key, err)
 		return
 	}
 
 	logutils.Info.Println(fmt.Sprintf(
-		"AddTask:: new task added to ToDoList '%s': task={title: %s, done=%t}",key, task.Title, task.Done ))
+		"CreateTask:: new task added to ToDoList '%s': task={title: %s, done=%t}",key, task.Title, task.Done ))
 	json.NewEncoder(w).Encode(task)
 }
 
@@ -74,26 +73,19 @@ func CreateTask(w http.ResponseWriter, r *http.Request, param httprouter.Params)
 func DeleteTask(w http.ResponseWriter, r *http.Request, param httprouter.Params)  {
 	key := param.ByName("list")
 	title := param.ByName("task")
-	req := struct{ 
-		Title string
-		Done  bool }{}
+
 	if  key == "" || title == ""  {
-		logutils.Error.Println("RemoveTask:: Bad request received. Null list name or task title")
-		http.Error(w, "Missing ToDo list name or task title", http.StatusBadRequest)
-		return
+		taskBadRequestError(w, "DeleteTask", errors.New("Missing mandatory information: todolist name or task title"))		
+		return	
 	}
 	task, err :=  model.RemoveTask(key, title)
 	if err != nil {
-		logutils.Error.Println(fmt.Sprintf(
-			"RemoveTask:: Error while removing task = {%s} in ToDo list = {%s}. error={%v}",
-			req.Title, key, err))
-			http.Error(w, fmt.Sprintf("Error while deleting task '%s' in ToDo list '%s'", title, key),  
-				http.StatusNotFound)
-			return
+		taskOperationError(w, "DeleteTask", title, key, err)
+		return
 	}
 
 	logutils.Info.Println(fmt.Sprintf(
-		"RemoveTask:: task removed from  ToDoList '%s': task={title: %s, done=%t}",key, task.Title, task.Done ))
+		"DeleteTask:: task removed from  ToDoList '%s': task={title: %s, done=%t}",key, task.Title, task.Done ))
 	json.NewEncoder(w).Encode(task)
 }
 
@@ -117,22 +109,18 @@ func GetTask(w http.ResponseWriter, r *http.Request, param httprouter.Params)  {
 	key := param.ByName("list")
 	title := param.ByName("task")
 	if  key == "" || title == "" {
-		logutils.Error.Println(fmt.Sprintf("ShowTask:: Bad request received, list = '%s', task='%s'", key, title))
-		http.Error(w, "Missing ToDo list name or task title", http.StatusBadRequest)
+		taskBadRequestError(w, "GetTask", errors.New("Missing mandatory information: todolist name or task title"))		
 		return
 	}
 	
 	task, err :=  model.GetTask(key, title)
 	if err != nil {
-		logutils.Error.Println(fmt.Sprintf(
-			"ShowTask:: Task = {%s} not found in ToDo list = {%s}",
-			title, key))
-		http.Error(w, fmt.Sprintf("Error while retrieving task '%s' from ToDo list '%s'", title, key), http.StatusNotFound)
-		return	
+		taskOperationError(w, "GetTask", title, key, err)
+		return
 	}
 	
 	logutils.Info.Println(fmt.Sprintf(
-		"ShowTask:: task retrieved from ToDoList '%s': task={title: %s, done=%t}",key, task.Title, task.Done ))
+		"GetTask:: task retrieved from ToDoList '%s': task={title: %s, done=%t}",key, task.Title, task.Done ))
 	json.NewEncoder(w).Encode(task)
 }
 
@@ -162,8 +150,7 @@ func UpdateTask(w http.ResponseWriter, r *http.Request, param httprouter.Params)
 		Title string
 		Done  bool }{}
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil || key == "" || title == "" {
-		logutils.Error.Println("UpdateTask:: Bad request received", err)
-		http.Error(w, "Missing ToDo list name or task title", http.StatusBadRequest)
+		taskBadRequestError(w, "UpdateTask", err)		
 		return
 	}
 	if req.Title == "" {
@@ -171,11 +158,8 @@ func UpdateTask(w http.ResponseWriter, r *http.Request, param httprouter.Params)
 	}
 	task, err :=  model.UpdateTask(key, title, req.Title, req.Done)
 	if err != nil {
-		logutils.Error.Println(fmt.Sprintf(
-			"UpdateTask:: Error while updating task = {%s} in ToDo list = {%s}. error={%v}",
-			title, key, err))
-		http.Error(w, fmt.Sprintf("Error while updating task '%s' in ToDo list '%s'", title, key), http.StatusNotFound)
-		return	
+		taskOperationError(w, "UpdateTask", title, key, err)
+		return
 	}
 
 	logutils.Info.Println(fmt.Sprintf(
@@ -183,3 +167,14 @@ func UpdateTask(w http.ResponseWriter, r *http.Request, param httprouter.Params)
 	json.NewEncoder(w).Encode(task)
 }
 
+func taskBadRequestError(w http.ResponseWriter, caller string, err error){
+	HandleError(w, http.StatusBadRequest, TASK_BADREQUEST, caller,
+		"Missing ToDo list name or task title",  
+		fmt.Sprintf("Bad request received: Missing mandatory parameters list or title. %v", err))
+}
+
+func taskOperationError(w http.ResponseWriter, caller, task, todolist string, err error){
+	HandleError(w, http.StatusNotFound, TASK_OPERATION_ERROR, caller,
+		fmt.Sprintf("Error while performing operation on task = {%s}, ToDo list = {%s}", task, todolist),  
+		fmt.Sprintf("%v",err))
+}

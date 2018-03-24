@@ -531,17 +531,20 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "10f763c3-5dc9-42a7-a937-6e19a19f4cd8",
+						"id": "7e62e32e-fecf-44df-8c02-5c5fcda0ee62",
 						"type": "text/javascript",
 						"exec": [
 							"pm.test(\"Body matches string\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"Missing ToDo list name\");",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(10);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.eql(\"Missing ToDo list name\");",
 							"});",
-							"",
 							"",
 							"pm.test(\"Status code is 400\", function () {",
 							"    pm.response.to.have.status(400);",
-							"});"
+							"});",
+							"",
+							""
 						]
 					}
 				}
@@ -572,13 +575,14 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "2775b6e5-769d-4069-8f2d-fce61666ff2e",
+						"id": "6e39367f-e193-416c-93b0-3f94001c0889",
 						"type": "text/javascript",
 						"exec": [
 							"pm.test(\"Body matches string\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"Missing ToDo list name\");",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(10);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.eql(\"Missing ToDo list name\");",
 							"});",
-							"",
 							"",
 							"pm.test(\"Status code is 400\", function () {",
 							"    pm.response.to.have.status(400);",
@@ -613,13 +617,14 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "79e83e9f-1008-4a43-8c6e-536bc9a17db7",
+						"id": "ff3d4fe2-0750-4d25-9c51-dca6149655a7",
 						"type": "text/javascript",
 						"exec": [
 							"pm.test(\"Body matches string\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"Missing ToDo list name\");",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(10);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.eql(\"Missing ToDo list name\");",
 							"});",
-							"",
 							"",
 							"pm.test(\"Status code is 400\", function () {",
 							"    pm.response.to.have.status(400);",
@@ -654,13 +659,14 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "fe768e2d-68a5-4e82-8cd1-564739d9b1e4",
+						"id": "b148cf7b-697e-4470-b256-442a1ec2c09c",
 						"type": "text/javascript",
 						"exec": [
 							"pm.test(\"Body matches string\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"ToDo list not found\");",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(11);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.include(\"Error while performing operation on ToDo list\");",
 							"});",
-							"",
 							"",
 							"pm.test(\"Status code is 404\", function () {",
 							"    pm.response.to.have.status(404);",
@@ -691,16 +697,18 @@
 			"response": []
 		},
 		{
-			"name": "UpdateList wrong list name - Error Copy",
+			"name": "UpdateList missing new name - Error",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "fd2ebcbb-269e-472f-aa60-35d16d91b042",
+						"id": "f4d66f19-c9a2-4c0e-b5b7-e2532fe042ba",
 						"type": "text/javascript",
 						"exec": [
 							"pm.test(\"Body matches string\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"Missing ToDo list name or new list name\");",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(10);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.include(\"Missing ToDo list name\");",
 							"});",
 							"",
 							"",
@@ -738,11 +746,13 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "0f86fd46-1b83-4b41-bc32-5522c1981497",
+						"id": "cad733a3-350e-415a-9c5c-274d2fa54463",
 						"type": "text/javascript",
 						"exec": [
 							"pm.test(\"Body matches string\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"Error while deleting ToDo list\");",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(11);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.include(\"Error while performing operation on ToDo list\");",
 							"});",
 							"",
 							"",
@@ -776,61 +786,19 @@
 			"response": []
 		},
 		{
-			"name": "Show List2 - Not found",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "5295fc8d-cf98-4403-bd97-0b3573bd87dd",
-						"type": "text/javascript",
-						"exec": [
-							"pm.test(\"Body matches string\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"ToDo list not found\");",
-							"});",
-							"",
-							"",
-							"pm.test(\"Status code is 404\", function () {",
-							"    pm.response.to.have.status(404);",
-							"});"
-						]
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"Name\": \"List 2\"\n}"
-				},
-				"url": {
-					"raw": "localhost:8080/lists/List 2/",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"lists",
-						"List 2",
-						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Show empty list name - Error",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "c518e257-5942-4356-8371-3712277f7694",
+						"id": "08db2c6f-de63-4a1d-8915-18c280228c51",
 						"type": "text/javascript",
 						"exec": [
 							"pm.test(\"Body matches string\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"Missing ToDo list name\");",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(10);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.include(\"Missing ToDo list name\");",
 							"});",
-							"",
 							"",
 							"pm.test(\"Status code is 400\", function () {",
 							"    pm.response.to.have.status(400);",
@@ -912,16 +880,18 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "d96c0584-1d6f-4bb3-bce3-7defb1540413",
+						"id": "7bbc2549-c000-4226-a05a-9881e7a7d584",
 						"type": "text/javascript",
 						"exec": [
 							"pm.test(\"Body matches string\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"Error while creating ToDo list\");",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(11);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.include(\"Error while performing operation on ToDo list\");",
 							"});",
 							"",
 							"",
-							"pm.test(\"Status code is 400\", function () {",
-							"    pm.response.to.have.status(400);",
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
 							"});"
 						]
 					}
@@ -1565,11 +1535,13 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "75b300ad-dd78-478b-a437-e3106aeeba5b",
+						"id": "d8359483-9302-41dd-ada6-06f1296bdb7e",
 						"type": "text/javascript",
 						"exec": [
 							"pm.test(\"Body matches string\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"Missing ToDo list name or task title\");",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(20);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.include(\"Missing ToDo list name or task title\");",
 							"});",
 							"",
 							"",
@@ -1609,13 +1581,14 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "75b300ad-dd78-478b-a437-e3106aeeba5b",
+						"id": "12972681-7a8f-4c10-8ed6-0b844032b225",
 						"type": "text/javascript",
 						"exec": [
 							"pm.test(\"Body matches string\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"Missing ToDo list name or task title\");",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(20);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.include(\"Missing ToDo list name or task title\");",
 							"});",
-							"",
 							"",
 							"",
 							"pm.test(\"Status code is 400\", function () {",
@@ -1697,11 +1670,13 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "a2d02f09-b33a-4713-818a-274fd0419f63",
+						"id": "51e04374-3ebe-4164-8752-55412a967ab2",
 						"type": "text/javascript",
 						"exec": [
 							"pm.test(\"Body matches string\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"Error while creating task\");",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(21);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.include(\"Error while performing operation on task\");",
 							"});",
 							"",
 							"",
@@ -1741,11 +1716,13 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "5bf665ed-baf6-4558-b7c6-c4481c7dd159",
+						"id": "33a00a71-2d26-4941-a941-c3778bdc19c4",
 						"type": "text/javascript",
 						"exec": [
 							"pm.test(\"Body matches string\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"Error while creating task\");",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(21);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.include(\"Error while performing operation on task\");",
 							"});",
 							"",
 							"",
@@ -1785,11 +1762,13 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "7c994871-b432-4d8b-b4a3-c19085d556c6",
+						"id": "d0ea02d6-3389-492d-840a-3a61a07a83cb",
 						"type": "text/javascript",
 						"exec": [
 							"pm.test(\"Body matches string\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"Error while deleting task\");",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(21);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.include(\"Error while performing operation on task\");",
 							"});",
 							"",
 							"",
@@ -1829,12 +1808,15 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "d6607b6e-48be-4016-9070-ba606dbd69e9",
+						"id": "cbcd0577-a10f-4f61-a3ef-f264d16348d8",
 						"type": "text/javascript",
 						"exec": [
 							"pm.test(\"Body matches string\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"Missing ToDo list name or task title\");",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(20);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.include(\"Missing ToDo list name or task title\");",
 							"});",
+							"",
 							"",
 							"",
 							"pm.test(\"Status code is 400\", function () {",
@@ -1873,13 +1855,14 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "7e1c0841-5dd2-4e32-b367-13a6f78ba379",
+						"id": "9f10eef3-8abf-4e63-9203-4eb31834435b",
 						"type": "text/javascript",
 						"exec": [
 							"pm.test(\"Body matches string\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"Error while updating task\");",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(21);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.include(\"Error while performing operation on task\");",
 							"});",
-							"",
 							"",
 							"",
 							"pm.test(\"Status code is 404\", function () {",
@@ -1918,13 +1901,14 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "477f8a2b-0a44-4605-b13f-04f46706bd7f",
+						"id": "9b2efb15-e3c3-43de-91d5-f5588b7af08f",
 						"type": "text/javascript",
 						"exec": [
 							"pm.test(\"Body matches string\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"Error while updating task\");",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(21);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.include(\"Error while performing operation on task\");",
 							"});",
-							"",
 							"",
 							"",
 							"pm.test(\"Status code is 404\", function () {",
@@ -1963,13 +1947,14 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "82c71252-ad73-4b41-bf58-0ff1187b83c2",
+						"id": "6f5b30e5-c925-4525-b50a-6368fbd66972",
 						"type": "text/javascript",
 						"exec": [
 							"pm.test(\"Body matches string\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"Missing ToDo list name or task title\");",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(20);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.include(\"Missing ToDo list name or task title\");",
 							"});",
-							"",
 							"",
 							"",
 							"pm.test(\"Status code is 400\", function () {",
@@ -2008,11 +1993,13 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "5fb86f2c-0684-4029-9d76-ae1cf770e6ff",
+						"id": "0cba001e-792c-4092-ab6f-a86a1d051401",
 						"type": "text/javascript",
 						"exec": [
 							"pm.test(\"Body matches string\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"Error while retrieving task\");",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(21);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.include(\"Error while performing operation on task\");",
 							"});",
 							"",
 							"",
@@ -2052,11 +2039,13 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "ce2fda3b-44d1-42aa-bcb9-148b66dafe02",
+						"id": "47b52965-9089-4ef6-9781-abf36e1ad82d",
 						"type": "text/javascript",
 						"exec": [
 							"pm.test(\"Body matches string\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"Error while retrieving task\");",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(21);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.include(\"Error while performing operation on task\");",
 							"});",
 							"",
 							"",
@@ -2083,6 +2072,53 @@
 					"path": [
 						"lists",
 						"wronglist",
+						"tasks",
+						"Task 1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RemoveTask in null List - Error",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "754a3132-7553-4bfc-826c-b517deee2b5a",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(20);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.include(\"Missing ToDo list name or task title\");",
+							"});",
+							"",
+							"",
+							"",
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/lists//tasks/Task 1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"lists",
+						"",
 						"tasks",
 						"Task 1"
 					]

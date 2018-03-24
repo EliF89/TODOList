@@ -4,7 +4,7 @@ import (
 		"net/http"
 		"io/ioutil"
 		"os"
-		
+		"fmt"
 		"github.com/efreddo/todolist/controller"
 		"github.com/efreddo/todolist/logutils"
 		"github.com/julienschmidt/httprouter"
@@ -18,6 +18,9 @@ func main(){
 func RegisterHandlers() {
 
 	r := httprouter.New()
+
+	// test
+	r.GET("/test/", testWorking)
 
 	// ToDo Lists 
 	r.POST("/lists/", controller.CreateToDoList)	
@@ -36,3 +39,6 @@ func RegisterHandlers() {
 	
 }
 
+func testWorking(w http.ResponseWriter, r *http.Request, param httprouter.Params){
+	fmt.Fprintf(w, "WORKING!!!")
+}
