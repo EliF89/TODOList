@@ -26,6 +26,7 @@ var (
 	db, err := sql.Open("postgres", psqlInfo);
 	 if  err != nil {		
 		logutils.Error.Println("database InitConnection:: error while opening DB connection",  err.Error())
+		logutils.Error.Println("DB Connect: ", psqlInfo)
 		return nil
 	}
 		
