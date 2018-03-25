@@ -1,0 +1,2152 @@
+{
+	"info": {
+		"_postman_id": "7bb76a09-5440-46cf-bb2d-e453dae45a14",
+		"name": "1 - ToDo Lists",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "PrepareTest - Delete List 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "aa326435-6d38-4d0d-acd9-a7dfb8343224",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists/List 1",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						"List 1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PrepareTest - Delete List 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c102b8ef-5295-411c-8b37-8f00e7feda2c",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists/List 2",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						"List 2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PrepareTest - Delete List 3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1fd3556c-7a7d-43a0-a8d6-77e00d59e175",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists/List 3",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						"List 3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateList1 - added, tot = 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9ffcc9df-3134-44a5-bead-ba71d13f07be",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Name).to.eql(\"List 1\");",
+							"    pm.expect(jsonData.TaskNumber).to.eql(0);",
+							"});",
+							"",
+							"",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Name\": \"List 1\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateList2 - added, tot = 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e5f2b5f3-7ae5-4aa9-968b-be521402f36b",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Name).to.eql(\"List 2\");",
+							"    pm.expect(jsonData.TaskNumber).to.eql(0);",
+							"});",
+							"",
+							"",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Name\": \"List 2\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update List2 - new name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7c96053f-97bb-4f27-9d8e-faa28e72f0c9",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Name).to.eql(\"List 2 new\");",
+							"    pm.expect(jsonData.TaskNumber).to.eql(0);",
+							"});",
+							"",
+							"",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Name\": \"List 2 new\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists/List 2",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						"List 2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateList3 - added, tot = 3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b3ba0f89-3c7a-40fb-aa90-cb1805ad7694",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Name).to.eql(\"List 3\");",
+							"    pm.expect(jsonData.TaskNumber).to.eql(0);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Name\": \"List 3\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete List2 - deleted, tot = 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fd8ca31f-c0d2-4777-af49-ac0dd56299b9",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Name).to.eql(\"List 2 new\");",
+							"    pm.expect(jsonData.TaskNumber).to.eql(0);",
+							"});",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists/List 2 new",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						"List 2 new"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Show All - ok",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e2567bb5-e1e8-469e-b407-f3cfad6b01ba",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    ",
+							"    pm.expect(jsonData.length).to.eql(2);",
+							"});",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Name\": \"List 2\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Show List3 - ok",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "eb74127c-bffe-400d-93a6-28ea405085c2",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Name).to.eql(\"List 3\");",
+							"    pm.expect(jsonData.TaskNumber).to.eql(0);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Name\": \"List 2\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists/List 3/",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						"List 3",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PrepareTest - Delete List 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4ce09510-4094-40cb-969f-0eb41e64bb20",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists/List 1",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						"List 1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PrepareTest - Delete List 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "44402a3e-86c0-4484-8c3c-b6ed0364bef8",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists/List 2",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						"List 2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PrepareTest - Delete List 3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b42b23a8-351c-48be-87f4-55eb26811be4",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists/List 3",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						"List 3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateList no name - Error",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7e62e32e-fecf-44df-8c02-5c5fcda0ee62",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(10);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.eql(\"Missing ToDo list name\");",
+							"});",
+							"",
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Name\": \"\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateList no body - Error ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6e39367f-e193-416c-93b0-3f94001c0889",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(10);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.eql(\"Missing ToDo list name\");",
+							"});",
+							"",
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateList wrong body - Error",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ff3d4fe2-0750-4d25-9c51-dca6149655a7",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(10);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.eql(\"Missing ToDo list name\");",
+							"});",
+							"",
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"xxx\": \"wrong\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateList wrong list name - Error",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b148cf7b-697e-4470-b256-442a1ec2c09c",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(11);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.include(\"Error while performing operation on ToDo list\");",
+							"});",
+							"",
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Name\": \"List 2 new\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists/wronglist",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						"wronglist"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateList missing new name - Error",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f4d66f19-c9a2-4c0e-b5b7-e2532fe042ba",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(10);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.include(\"Missing ToDo list name\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Name\": \"\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists/List 1",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						"List 1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteList wrong name- Error",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cad733a3-350e-415a-9c5c-274d2fa54463",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(11);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.include(\"Error while performing operation on ToDo list\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists/wrongname/",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						"wrongname",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Show empty list name - Error",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "08db2c6f-de63-4a1d-8915-18c280228c51",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(10);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.include(\"Missing ToDo list name\");",
+							"});",
+							"",
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Name\": \"List 2\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists//",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						"",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateList1 - added, tot = 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "26782246-5a10-4601-b15f-f708ab08f6cb",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Name).to.eql(\"List 1\");",
+							"    pm.expect(jsonData.TaskNumber).to.eql(0);",
+							"});",
+							"",
+							"",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Name\": \"List 1\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists/",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateList1 already present - Error",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7bbc2549-c000-4226-a05a-9881e7a7d584",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(11);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.include(\"Error while performing operation on ToDo list\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Name\": \"List 1\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists/",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PrepareTest - Delete List 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b67e4f22-5d91-4ab2-95f3-0ca35f653508",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists/List 1",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						"List 1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PrepareTest - Delete List 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b67e4f22-5d91-4ab2-95f3-0ca35f653508",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists/List 2",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						"List 2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PrepareTest - Delete List 3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b67e4f22-5d91-4ab2-95f3-0ca35f653508",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists/List 3",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						"List 3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PrepareTest - Create List1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0d898ffd-0dd7-4393-8a83-48f134453789",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Name).to.eql(\"List 1\");",
+							"    pm.expect(jsonData.TaskNumber).to.eql(0);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Name\": \"List 1\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PrepareTest - Create List3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9e06e702-5cf4-468b-aa22-3d3bd1d66a9c",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Name).to.eql(\"List 3\");",
+							"    pm.expect(jsonData.TaskNumber).to.eql(0);",
+							"});",
+							"",
+							"",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Name\": \"List 3\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Task 1 in List1 - ok",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0d0ceafb-68f4-4c6e-886a-4207f1b4634f",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.ToDoList).to.eql(\"List 1\");",
+							"    pm.expect(jsonData.Title).to.eql(\"Task 1\");",
+							"    pm.expect(jsonData.Done).to.eql(false);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Title\": \"Task 1\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists/List 1/tasks",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						"List 1",
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateTask 2 in List1 - ok",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "db20e89d-76ee-4fe5-b95f-1af8f4a9ea4e",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.ToDoList).to.eql(\"List 1\");",
+							"    pm.expect(jsonData.Title).to.eql(\"Task 2\");",
+							"    pm.expect(jsonData.Done).to.eql(false);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Title\": \"Task 2\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists/List 1/tasks",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						"List 1",
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateTask 1 in List3 - ok",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a64296ec-3c08-48b2-bb3a-df5ac064b297",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.ToDoList).to.eql(\"List 3\");",
+							"    pm.expect(jsonData.Title).to.eql(\"Task 1\");",
+							"    pm.expect(jsonData.Done).to.eql(false);",
+							"});",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Title\": \"Task 1\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists/List 3/tasks",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						"List 3",
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateTask 2 in List3 - ok",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a5a281d8-ccd1-46ff-892e-cb437b548778",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.ToDoList).to.eql(\"List 3\");",
+							"    pm.expect(jsonData.Title).to.eql(\"Task 2\");",
+							"    pm.expect(jsonData.Done).to.eql(false);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Title\": \"Task 2\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists/List 3/tasks",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						"List 3",
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RemoveTask 2 in List3 - ok",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "be5b4088-e6f5-44ff-b70a-65147de56864",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.ToDoList).to.eql(\"List 3\");",
+							"    pm.expect(jsonData.Title).to.eql(\"Task 2\");",
+							"    pm.expect(jsonData.Done).to.eql(false);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists/List 3/tasks/Task 2",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						"List 3",
+						"tasks",
+						"Task 2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Task 1 in List3 - ok",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ec669eb5-8be8-47ad-ba8f-8361eb2aecab",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.ToDoList).to.eql(\"List 3\");",
+							"    pm.expect(jsonData.Title).to.eql(\"Task 1\");",
+							"    pm.expect(jsonData.Done).to.eql(true);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Done\": true\n}"
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists/List 3/tasks/Task 1",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						"List 3",
+						"tasks",
+						"Task 1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Task 1 new name - ok",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e79a5bc9-5235-458f-98af-b7771948e6d6",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.ToDoList).to.eql(\"List 3\");",
+							"    pm.expect(jsonData.Title).to.eql(\"Task 1 new\");",
+							"    pm.expect(jsonData.Done).to.eql(true);",
+							"});",
+							"",
+							"",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Title\": \"Task 1 new\",\n\t\"Done\" : true\n}"
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists/List 3/tasks/Task 1",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						"List 3",
+						"tasks",
+						"Task 1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Task 1 in List3 - ok ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e0604ec2-a12d-47f1-a5c7-c3b707fa1520",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.ToDoList).to.eql(\"List 3\");",
+							"    pm.expect(jsonData.Title).to.eql(\"Task 1\");",
+							"    pm.expect(jsonData.Done).to.eql(true);",
+							"});",
+							"",
+							"",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Title\": \"Task 1\",\n\t\"Done\": true\n}"
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists/List 3/tasks/Task 1 new",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						"List 3",
+						"tasks",
+						"Task 1 new"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Task 1 in List3 - ok",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "69996e35-a1b5-415b-9df9-fc327f95db6b",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Title).to.eql(\"Task 1\");",
+							"    pm.expect(jsonData.Done).to.eql(true);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Title\": \"Task 1\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists/List 3/tasks/Task 1",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						"List 3",
+						"tasks",
+						"Task 1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Task null in List - Error",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d8359483-9302-41dd-ada6-06f1296bdb7e",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(20);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.include(\"Missing ToDo list name or task title\");",
+							"});",
+							"",
+							"",
+							"",
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Title\": \"\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists/List 1/tasks",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						"List 1",
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Task no body in List - Error",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "12972681-7a8f-4c10-8ed6-0b844032b225",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(20);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.include(\"Missing ToDo list name or task title\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists/List 1/tasks",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						"List 1",
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Task in null List - Error",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "75b300ad-dd78-478b-a437-e3106aeeba5b",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Missing ToDo list name or task title\");",
+							"});",
+							"",
+							"",
+							"",
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Title\": \"Task 1\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists//tasks",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						"",
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Task  in not existing list - Error",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "51e04374-3ebe-4164-8752-55412a967ab2",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(21);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.include(\"Error while performing operation on task\");",
+							"});",
+							"",
+							"",
+							"",
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Title\": \"Task 1\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists/wronglist/tasks",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						"wronglist",
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Task already present in List - Error",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "33a00a71-2d26-4941-a941-c3778bdc19c4",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(21);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.include(\"Error while performing operation on task\");",
+							"});",
+							"",
+							"",
+							"",
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Title\": \"Task 1\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists/List 1/tasks",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						"List 1",
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RemoveTask unknown in List - Error",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d0ea02d6-3389-492d-840a-3a61a07a83cb",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(21);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.include(\"Error while performing operation on task\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists/List 3/tasks/wrong",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						"List 3",
+						"tasks",
+						"wrong"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RemoveTask in null List - Error",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cbcd0577-a10f-4f61-a3ef-f264d16348d8",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(20);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.include(\"Missing ToDo list name or task title\");",
+							"});",
+							"",
+							"",
+							"",
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists//tasks/Task 1",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						"",
+						"tasks",
+						"Task 1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Task unknown in List - Error",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9f10eef3-8abf-4e63-9203-4eb31834435b",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(21);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.include(\"Error while performing operation on task\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Title\": \"new\",\n\t\"Done\": true\n}"
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists/List 3/tasks/wrong",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						"List 3",
+						"tasks",
+						"wrong"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Task in invalid List - Error",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9b2efb15-e3c3-43de-91d5-f5588b7af08f",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(21);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.include(\"Error while performing operation on task\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Title\": \"Task 1\",\n\t\"Done\": true\n}"
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists/wrong/tasks/Task 1",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						"wrong",
+						"tasks",
+						"Task 1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Task no updates - Error",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6f5b30e5-c925-4525-b50a-6368fbd66972",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(20);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.include(\"Missing ToDo list name or task title\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists/List 3/tasks/Task 1",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						"List 3",
+						"tasks",
+						"Task 1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Task null in List  - Error",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0cba001e-792c-4092-ab6f-a86a1d051401",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(21);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.include(\"Error while performing operation on task\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Title\": \"Task 1\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists/List 3/tasks/unknown",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						"List 3",
+						"tasks",
+						"unknown"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Task in unknown List  - Error",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "47b52965-9089-4ef6-9781-abf36e1ad82d",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(21);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.include(\"Error while performing operation on task\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Title\": \"Task 1\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists/wronglist/tasks/Task 1",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						"wronglist",
+						"tasks",
+						"Task 1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RemoveTask in null List - Error",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "754a3132-7553-4bfc-826c-b517deee2b5a",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Errors[0].Code).to.eql(20);",
+							"    pm.expect(jsonData.Errors[0].ErrorMessage).to.include(\"Missing ToDo list name or task title\");",
+							"});",
+							"",
+							"",
+							"",
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}:{{PORT}}/lists//tasks/Task 1",
+					"host": [
+						"{{URL}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lists",
+						"",
+						"tasks",
+						"Task 1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "cacd2422-f604-4632-81e3-c683818876d8",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "9f7391da-24f6-402c-9666-707f3e19067b",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

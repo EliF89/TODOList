@@ -1,70 +1,44 @@
 package main
 
 import (
-		"log"
 		"net/http"
 		"io/ioutil"
 		"os"
-
-		"github.com/efreddo/todolist/handler"
-		"github.com/efreddo/todolist/logutils"
+		"fmt"
+		"github.com/efreddo/v1/todolist/controller"
+		"github.com/efreddo/v1/todolist/logutils"
 		"github.com/julienschmidt/httprouter"
 )
 
 
-// Status code in reply = StatusBadRequest
-type badRequest struct{ error }
-
-// Status code in reply = StatusNotFound
-type notFound struct{ error }
-
 func main(){
-	// init logs
 	logutils.InitLogs(ioutil.Discard, os.Stdout, os.Stdout, os.Stderr)
-
 	RegisterHandlers()
 }
 
-
-func RegisterHandlers() {
-	defer errorHandler()
-
+func RegisterHandlers() {	
 	r := httprouter.New()
 
+	// test
+	r.GET("/test/", testWorking)
+
 	// ToDo Lists 
-	r.POST("/create/", handler.CreateToDoList)	
-	r.DELETE("/delete/", handler.DeleteToDoList)
-	r.GET("/showall/", handler.ShowAllToDoList)
-	r.GET("/show/:list/", handler.ShowToDoList)
+	r.POST("/lists/", controller.CreateToDoList)	
+	r.DELETE("/lists/:list", controller.DeleteToDoList)
+	r.PUT("/lists/:list",  controller.UpdateToDoList)	
+	r.GET("/lists/", controller.GetAllToDoList)
+	r.GET("/lists/:list/", controller.GetToDoList)
 
 	// Tasks
-	r.POST("/addtask/:list/", handler.AddTask)	
-	r.DELETE("/deletetask/:list/", handler.RemoveTask)	
-	r.PUT("/updatetask/:list/", handler.UpdateTask)	
-	r.GET("/showtask/:list/:title", handler.ShowTask)
+	r.POST("/lists/:list/tasks",  controller.CreateTask)	
+	r.DELETE("/lists/:list/tasks/:task",  controller.DeleteTask)	
+	r.PUT("/lists/:list/tasks/:task",  controller.UpdateTask)	
+	r.GET("/lists/:list/tasks/:task",  controller.GetTask)
 
 	http.ListenAndServe(":8080" , r)	
 	
 }
 
-func errorHandler(){
-	err := recover()
-
-	if err == nil {
-		return
-	}
-
-	log.Fatal("ListenAdnServe: ", err )
-/*
-	switch err.(type) {
-	case badRequest:
-		http.Error(w, err.Error(), http.StatusBadRequest)
-	case notFound:
-		http.Error(w, "task not found", http.StatusNotFound)
-	default:
-		log.Println(err)
-		http.Error(w, "oops", http.StatusInternalServerError)
-	}
-	*/
+func testWorking(w http.ResponseWriter, r *http.Request, param httprouter.Params){
+	fmt.Fprintf(w, "WORKING!!!")
 }
-
