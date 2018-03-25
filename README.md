@@ -8,21 +8,21 @@ The todo server exposes json services for getting, putting, and deleting todo li
 
 - ToDo list services
 
-Create a new list with name "<ToDo list name>":
+Create a new list with name "ToDo list name":
 ```
 POST /lists/ 
 Body: {"name": "<ToDo list name>"}
 Reponse: {"Name":"<ToDo list name>","Tasks":null,"TaskNumber":0}
 ```
 
-Modify the name of ToDo <ToDo list name> to <New ToDo list name>:
+Modify the name of ToDo "ToDo list name" to "New ToDo list name":
 ```
 PUT /lists/<ToDo list name>/ 	
 Body: {"Name": "<New ToDo list name>"}
 Reponse: {"Name":"<New ToDo list name>","Tasks":null,"TaskNumber":0}
 ```
 
-Get the requested ToDo list /<ToDo list name>:
+Get the requested ToDo list "ToDo list name":
 ```
 GET /lists/<ToDo list name>/ 	
 Reponse: {"Name":"<New ToDo list name>","Tasks":null,"TaskNumber":0}
@@ -51,20 +51,20 @@ Body: {"Title": "<Task Title>"}
 Reponse: {"ToDoList":"<ToDo list name>","Title":"<Task Title>","Done":false}
 ```
 
-Get task <Task Title> in list <ToDo list name>:
+Get task "Task Title" in list "ToDo list name":
 ```
 GET /lists/<ToDo list name>/tasks/<Task Title>
 Reponse: {"ToDoList":"<ToDo list name>","Title":"<Task Title>","Done":false/true}
 ```
 
-Update task <Task Title> in ToDo list <ToDo list name> to modify name and status (done/not done)
+Update task "Task Title" in ToDo list "ToDo list name" to modify name and status (done/not done)
 ```
 POST /lists/<ToDo list name>/tasks/<Task Title>
 Body: {"Title": "<Task Title>", "Done": true}
 Reponse: {"ToDoList":"<ToDo list name>","Title":"<Task Title>","Done":true}
 ```
 
-Delete task <Task Title> from ToDo list <ToDo list name>
+Delete task "Task Title" from ToDo list "ToDo list name"
 ```
 DELETE /lists/<ToDo list name>/tasks/<Task Title>
 Reponse: {"ToDoList":"<ToDo list name>","Title":"<Task Title>","Done":false/true}
