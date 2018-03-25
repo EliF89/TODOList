@@ -87,7 +87,7 @@ json response in case of errors:
 
 ## Tests
 
-Unit test are provded to test list and task functionalities:  
+Unit test are provided to test list and task functionalities:  
 
 ```
 cd model
